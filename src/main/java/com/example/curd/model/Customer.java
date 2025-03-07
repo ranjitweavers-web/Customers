@@ -1,6 +1,8 @@
 package com.example.curd.model;
 
+import java.util.List;
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "customer")
@@ -10,31 +12,24 @@ public class Customer {
     private Long id;
 
     private String name;
-    @Column(nullable = false)
+
+    @Column(nullable = false, unique = true)
     private String email;
+
     @Column(nullable = false)
     private String password;
+
     private String gender;
     private String address;
 
-    public String getGender() {
-        return gender;
-    }
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Orders> orders;
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
+    public Customer() {}
 
     // Getters and Setters
-    public Object getId() {
+    public Long getId() {
         return id;
     }
 
@@ -65,5 +60,28 @@ public class Customer {
     public void setPassword(String password) {
         this.password = password;
     }
-}
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public List<Orders> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Orders> orders) {
+        this.orders = orders;
+    }
+}

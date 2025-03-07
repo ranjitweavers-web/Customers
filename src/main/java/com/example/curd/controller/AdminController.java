@@ -18,14 +18,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 @RestController
-@RequestMapping("/api")
-public class CustomerController {
+@RequestMapping("/admin")
+public class AdminController {
     
     @Autowired
  private CustomerService customerService;
 
- @PostMapping
+ @PostMapping("/new")
  public Customer createNewCustomer(@RequestBody Customer customer){
+    System.out.println(customer);
         return customerService.createNewCustomer(customer);
  }
 

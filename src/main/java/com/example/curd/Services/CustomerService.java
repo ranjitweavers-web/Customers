@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.curd.model.Customer;
@@ -17,10 +18,16 @@ public class CustomerService {
     private CustomerRepository customerRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+   
 
+    @PostMapping
     // create new customer
     public Customer createNewCustomer(@RequestBody Customer customer) {
+        if(customer.getPassword() == null || customer.getPassword().isEmpty()){
+            throw new IllegalArgumentException("password can't be null or empty");
+        }
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+
         return customerRepository.save(customer);
     }
 
